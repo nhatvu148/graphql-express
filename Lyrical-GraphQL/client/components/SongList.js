@@ -36,6 +36,7 @@ const SongList = () => {
       refetchQueries: [QUERY],
       onCompleted: (data) => {
         console.log("Completed:", data);
+        setNewSong("");
         // window.location.href = "http://www.google.com";
       },
     });
