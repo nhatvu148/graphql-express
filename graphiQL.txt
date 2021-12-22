@@ -20,3 +20,11 @@ fragment companyDetails on Company {
     }
   }
 }
+
+mutation {
+  addUser(firstName: "Nhat Vu", age: 29) {
+    id
+    firstName
+    age
+  }
+}
