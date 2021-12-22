@@ -5,6 +5,7 @@ import { createMemoryHistory } from "history";
 import { Router, Route, Routes } from "react-router-dom";
 import SongList from "./components/SongList";
 import HelloWorld from "./components/HelloWorld";
+import "./style/style.css";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
