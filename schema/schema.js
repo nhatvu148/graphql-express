@@ -1,19 +1,34 @@
 const graphql = require("graphql");
 const axios = require("axios");
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLSchema,
+  GraphQLList,
+} = graphql;
 
 const CompanyType = new GraphQLObjectType({
   name: "Company",
-  fields: {
+  // Use closure to resolve circular references
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     description: { type: GraphQLString },
-  },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve(parentValue, args) {
+        return axios
+          .get(`http://localhost:3000/companies/${parentValue.id}/users`)
+          .then((res) => res.data);
+      },
+    },
+  }),
 });
 
 const UserType = new GraphQLObjectType({
   name: "User",
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     firstName: { type: GraphQLString },
     age: { type: GraphQLInt },
@@ -25,7 +40,7 @@ const UserType = new GraphQLObjectType({
           .then((res) => res.data);
       },
     },
-  },
+  }),
 });
 
 const RootQuery = new GraphQLObjectType({
